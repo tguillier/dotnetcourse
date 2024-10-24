@@ -23,15 +23,14 @@ public class ProductTransformer : IProductTransformer
         var transformationContext = scope.ServiceProvider.GetRequiredService<IProductTransformationContext>();
         transformationContext.SetProduct(product);
 
-        var nameCapitalizer = scope.ServiceProvider.GetRequiredService<INameDecapitaliser>();
-        var currencyNormalizer = scope.ServiceProvider.GetRequiredService<ICurrencyNormalizer>();
-        var referenceAdder = scope.ServiceProvider.GetRequiredService<IReferenceAdder>();
+        var transformations = scope.ServiceProvider.GetRequiredService<IEnumerable<IProductTransformation>>();
 
         Thread.Sleep(2000);
 
-        nameCapitalizer.Execute();
-        currencyNormalizer.Execute();
-        referenceAdder.Execute();
+        foreach (var transformation in transformations)
+        {
+            transformation.Execute();
+        }
 
         if (transformationContext.IsProductChanged())
         {

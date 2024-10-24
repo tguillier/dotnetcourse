@@ -1,6 +1,6 @@
 ﻿namespace ProductImporter.Logic.Transformations
 {
-    public interface IReferenceAdder
+    public interface IProductTransformation
     {
         void Execute();
     }

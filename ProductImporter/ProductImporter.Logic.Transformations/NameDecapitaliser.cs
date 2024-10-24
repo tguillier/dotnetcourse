@@ -2,7 +2,7 @@
 
 namespace ProductImporter.Logic.Transformations;
 
-public class NameDecapitaliser : INameDecapitaliser
+public class NameDecapitaliser : IProductTransformation
 {
     private readonly IProductTransformationContext _productTransformationContext;
 
@@ -15,7 +15,7 @@ public class NameDecapitaliser : INameDecapitaliser
     {
         var product = _productTransformationContext.GetProduct();
 
-        if (product.Name.Any(x => char.IsUpper(x)))
+        if (product.Name.Any(char.IsUpper))
         {
             var newProduct = new Product(product.Id, product.Name.ToLowerInvariant(), product.Price, product.Stock);
             _productTransformationContext.SetProduct(newProduct);
