@@ -5,8 +5,13 @@ using ProductImporter.Source;
 using ProductImporter.Target;
 using ProductImporter.Transformation;
 using ProductImporter.Transformation.Transformations;
+using ProductImporter.Util;
 
 using var host = Host.CreateDefaultBuilder()
+    .UseDefaultServiceProvider((context, options) =>
+    {
+        options.ValidateScopes = true;
+    })
     .ConfigureServices(services =>
     {
         services.AddTransient<Configuration>();
@@ -26,6 +31,12 @@ using var host = Host.CreateDefaultBuilder()
         services.AddScoped<IProductTransformationContext, ProductTransformationContext>();
         services.AddScoped<INameDecapitaliser, NameDecapitaliser>();
         services.AddScoped<ICurrencyNormalizer, CurrencyNormalizer>();
+
+        services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+        services.AddScoped<IReferenceAdder, ReferenceAdder>();
+        services.AddScoped<IReferenceGenerator, ReferenceGenerator>();
+
+        services.AddSingleton<IInternalCounter, InternalCounter>();
 
     })
     .Build();

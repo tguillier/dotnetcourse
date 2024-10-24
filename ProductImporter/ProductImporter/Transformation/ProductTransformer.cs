@@ -2,6 +2,7 @@
 using ProductImporter.Model;
 using ProductImporter.Shared;
 using ProductImporter.Transformation.Transformations;
+using ProductImporter.Part6.Transformation.Transformations;
 
 namespace ProductImporter.Transformation;
 
@@ -25,9 +26,13 @@ public class ProductTransformer : IProductTransformer
 
         var nameCapitalizer = scope.ServiceProvider.GetRequiredService<INameDecapitaliser>();
         var currencyNormalizer = scope.ServiceProvider.GetRequiredService<ICurrencyNormalizer>();
+        var referenceAdder = scope.ServiceProvider.GetRequiredService<IReferenceAdder>();
+
+        Thread.Sleep(2000);
 
         nameCapitalizer.Execute();
         currencyNormalizer.Execute();
+        referenceAdder.Execute();
 
         if (transformationContext.IsProductChanged())
         {

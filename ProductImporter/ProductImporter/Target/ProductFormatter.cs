@@ -17,6 +17,7 @@ public class ProductFormatter : IProductFormatter
         AppendItem(stringBuilder, product.Price.IsoCurrency, false);
         AppendItem(stringBuilder, product.Price.Amount.ToString(CultureInfo.InvariantCulture), false);
         AppendItem(stringBuilder, product.Stock.ToString(), false);
+        AppendItem(stringBuilder, product.Reference, false);
 
         return stringBuilder.ToString();
     }
