@@ -2,7 +2,7 @@
 
 namespace ProductImporter.Source;
 
-public class PriceParser
+public class PriceParser : IPriceParser
 {
     public Money Parse(string price)
     {

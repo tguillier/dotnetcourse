@@ -1,14 +1,22 @@
-﻿using ProductImporter.Shared;
-using ProductImporter.Model;
+﻿using ProductImporter.Model;
+using ProductImporter.Shared;
 
 namespace ProductImporter.Target;
 
-public class ProductTarget
+public class ProductTarget : IProductTarget
 {
-    private readonly Configuration _configuration = new();
-    private readonly ProductFormatter _productFormatter = new();
+    private readonly Configuration _configuration;
+    private readonly IProductFormatter _productFormatter;
 
     private StreamWriter? _streamWriter;
+
+    public ProductTarget(
+        Configuration configuration,
+        IProductFormatter productFormatter)
+    {
+        _configuration = configuration;
+        _productFormatter = productFormatter;
+    }
 
     public void Open()
     {

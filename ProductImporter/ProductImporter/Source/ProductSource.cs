@@ -1,15 +1,23 @@
-﻿using Microsoft.VisualBasic.FileIO;
-using ProductImporter.Model;
+﻿using ProductImporter.Model;
 using ProductImporter.Shared;
+using Microsoft.VisualBasic.FileIO;
 
 namespace ProductImporter.Source;
 
-public class ProductSource
+public class ProductSource : IProductSource
 {
-    private readonly Configuration _configuration = new();
-    private readonly PriceParser _priceParser = new();
+    private readonly Configuration _configuration;
+    private readonly IPriceParser _priceParser;
 
     private TextFieldParser? _textFieldParser;
+
+    public ProductSource(
+        Configuration configuration,
+        IPriceParser priceParser)
+    {
+        _configuration = configuration;
+        _priceParser = priceParser;
+    }
 
     public void Open()
     {

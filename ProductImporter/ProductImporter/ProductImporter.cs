@@ -5,8 +5,16 @@ namespace ProductImporter;
 
 public class ProductImporter
 {
-    private readonly ProductSource _productSource = new();
-    private readonly ProductTarget _productTarget = new();
+    private readonly IProductSource _productSource;
+    private readonly IProductTarget _productTarget;
+
+    public ProductImporter(
+        IProductSource productSource,
+        IProductTarget productTarget)
+    {
+        _productSource = productSource;
+        _productTarget = productTarget;
+    }
 
     public void Run()
     {
