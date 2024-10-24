@@ -26,7 +26,16 @@ public class SqlProductTarget : IProductTarget
 
         _importStatistics.IncrementOutputCount();
 
-        context.Products.Add(product);
+        var existingProduct = context.Products.Find(product.Id);
+        if (existingProduct == null)
+        {
+            context.Products.Add(product);
+        }
+        else
+        {
+            context.Products.Update(existingProduct);
+        }
+
         context.SaveChanges();
     }
 
