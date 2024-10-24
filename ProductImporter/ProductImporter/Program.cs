@@ -3,6 +3,8 @@ using Microsoft.Extensions.Hosting;
 using ProductImporter.Shared;
 using ProductImporter.Source;
 using ProductImporter.Target;
+using ProductImporter.Transformation;
+using ProductImporter.Transformation.Transformations;
 
 using var host = Host.CreateDefaultBuilder()
     .ConfigureServices(services =>
@@ -18,6 +20,13 @@ using var host = Host.CreateDefaultBuilder()
         services.AddTransient<ProductImporter.ProductImporter>();
 
         services.AddSingleton<IImportStatistics, ImportStatistics>();
+
+        services.AddTransient<IProductTransformer, ProductTransformer>();
+
+        services.AddScoped<IProductTransformationContext, ProductTransformationContext>();
+        services.AddScoped<INameDecapitaliser, NameDecapitaliser>();
+        services.AddScoped<ICurrencyNormalizer, CurrencyNormalizer>();
+
     })
     .Build();
 

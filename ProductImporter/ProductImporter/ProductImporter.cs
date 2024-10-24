@@ -1,6 +1,7 @@
 ﻿using ProductImporter.Shared;
 using ProductImporter.Source;
 using ProductImporter.Target;
+using ProductImporter.Transformation;
 
 namespace ProductImporter;
 
@@ -9,15 +10,18 @@ public class ProductImporter
     private readonly IProductSource _productSource;
     private readonly IProductTarget _productTarget;
     private readonly IImportStatistics _importStatistics;
+    private readonly IProductTransformer _productTransformer;
 
     public ProductImporter(
         IProductSource productSource,
         IProductTarget productTarget,
-        IImportStatistics importStatistics)
+        IImportStatistics importStatistics,
+        IProductTransformer productTransformer)
     {
         _productSource = productSource;
         _productTarget = productTarget;
         _importStatistics = importStatistics;
+        _productTransformer = productTransformer;
     }
 
     public void Run()
@@ -28,7 +32,10 @@ public class ProductImporter
         while (_productSource.HasMoreProducts())
         {
             var product = _productSource.GetNextProduct();
-            _productTarget.AddProduct(product);
+
+            var transformedProduct = _productTransformer.ApplyTransformations(product);
+
+            _productTarget.AddProduct(transformedProduct);
         }
 
         _productSource.Close();

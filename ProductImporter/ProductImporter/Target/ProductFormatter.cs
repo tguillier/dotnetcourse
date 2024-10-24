@@ -26,7 +26,7 @@ public class ProductFormatter : IProductFormatter
         return _headerLine;
     }
 
-    private void AppendItem(StringBuilder stringBuilder, string item, bool isFirst)
+    private static void AppendItem(StringBuilder stringBuilder, string item, bool isFirst)
     {
         if (!isFirst)
         {
