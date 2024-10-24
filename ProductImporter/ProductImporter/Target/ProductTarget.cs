@@ -7,15 +7,17 @@ public class ProductTarget : IProductTarget
 {
     private readonly Configuration _configuration;
     private readonly IProductFormatter _productFormatter;
-
+    private readonly IImportStatistics _importStatistics;
     private StreamWriter? _streamWriter;
 
     public ProductTarget(
         Configuration configuration,
-        IProductFormatter productFormatter)
+        IProductFormatter productFormatter,
+        IImportStatistics importStatistics)
     {
         _configuration = configuration;
         _productFormatter = productFormatter;
+        _importStatistics = importStatistics;
     }
 
     public void Open()
@@ -32,6 +34,8 @@ public class ProductTarget : IProductTarget
             throw new InvalidOperationException("Cannot add products to a target that is not yet open");
 
         var productLine = _productFormatter.Format(product);
+
+        _importStatistics.IncrementOutputCount();
         _streamWriter.WriteLine(productLine);
     }
 

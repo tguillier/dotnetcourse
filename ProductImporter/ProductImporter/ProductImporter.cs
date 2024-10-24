@@ -1,4 +1,5 @@
-﻿using ProductImporter.Source;
+﻿using ProductImporter.Shared;
+using ProductImporter.Source;
 using ProductImporter.Target;
 
 namespace ProductImporter;
@@ -7,13 +8,16 @@ public class ProductImporter
 {
     private readonly IProductSource _productSource;
     private readonly IProductTarget _productTarget;
+    private readonly IImportStatistics _importStatistics;
 
     public ProductImporter(
         IProductSource productSource,
-        IProductTarget productTarget)
+        IProductTarget productTarget,
+        IImportStatistics importStatistics)
     {
         _productSource = productSource;
         _productTarget = productTarget;
+        _importStatistics = importStatistics;
     }
 
     public void Run()
@@ -29,5 +33,8 @@ public class ProductImporter
 
         _productSource.Close();
         _productTarget.Close();
+
+        Console.WriteLine("Importing complete!");
+        Console.WriteLine(_importStatistics.GetStatistics());
     }
 }
