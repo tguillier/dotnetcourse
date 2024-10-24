@@ -2,11 +2,11 @@
 
 public class InternalCounter : IInternalCounter
 {
-    private int counter = -1;
+    private int _counter = -1;
 
     public int GetNextValue()
     {
-        counter++;
-        return counter;
+        _counter++;
+        return _counter;
     }
 }

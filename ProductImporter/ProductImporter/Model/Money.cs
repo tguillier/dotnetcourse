@@ -13,4 +13,22 @@ public class Money
     }
     public string IsoCurrency { get; set; }
     public decimal Amount { get; set; }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+
+        var other = (Money)obj;
+
+        return IsoCurrency == other.IsoCurrency
+            && Amount == other.Amount;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(IsoCurrency, Amount);
+    }
 }

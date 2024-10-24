@@ -2,7 +2,6 @@
 using ProductImporter.Model;
 using ProductImporter.Shared;
 using ProductImporter.Transformation.Transformations;
-using ProductImporter.Part6.Transformation.Transformations;
 
 namespace ProductImporter.Transformation;
 
