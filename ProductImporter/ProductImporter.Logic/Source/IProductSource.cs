@@ -7,6 +7,6 @@ namespace ProductImporter.Logic.Source
         void Close();
         Product GetNextProduct();
         bool HasMoreProducts();
-        void Open();
+        Task OpenAsync();
     }
 }

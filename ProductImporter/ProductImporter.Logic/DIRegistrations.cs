@@ -15,10 +15,15 @@ namespace ProductImporter.Logic
         public static IServiceCollection AddProductImporterLogic(this IServiceCollection services, HostBuilderContext context)
         {
             services.AddTransient<IPriceParser, PriceParser>();
-            services.AddTransient<IProductFormatter, ProductFormatter>();
+            services.AddHttpClient<IProductSource, HttpProductSource>()
+                .ConfigureHttpClient(client =>
+                {
+                    var baseAdress = context.Configuration.GetValue<string>($"{HttpProductSourceOptions.SectionName}:{nameof(client.BaseAddress)}");
+                    client.BaseAddress = new Uri(baseAdress);
+                });
 
-            services.AddTransient<IProductSource, ProductSource>();
-            services.AddTransient<IProductTarget, CsvProductTarget>();
+            services.AddTransient<IProductTarget, SqlProductTarget>();
+            services.AddTransient<IProductFormatter, ProductFormatter>();
 
             services.AddTransient<ProductImporter>();
 
@@ -41,6 +46,12 @@ namespace ProductImporter.Logic
                 .Configure<IConfiguration>((options, configuration) =>
                 {
                     configuration.GetSection(CsvProductSourceOptions.SectionName).Bind(options);
+                });
+
+            services.AddOptions<HttpProductSourceOptions>()
+                .Configure<IConfiguration>((options, configuration) =>
+                {
+                    configuration.GetSection(HttpProductSourceOptions.SectionName).Bind(options);
                 });
 
             return services;

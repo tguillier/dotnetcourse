@@ -4,7 +4,7 @@ namespace ProductImporter.Model;
 
 public class Product
 {
-    private Product()
+    public Product()
     { }
 
     public Product(Guid id, string name, Money price, int stock)
@@ -21,11 +21,11 @@ public class Product
     }
 
     [Key]
-    public Guid Id { get; private set; }
-    public string Name { get; private set; }
-    public Money Price { get; private set; }
-    public int Stock { get; private set; }
-    public string Reference { get; private set; }
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public Money Price { get; set; }
+    public int Stock { get; set; }
+    public string Reference { get; set; }
 
     public override bool Equals(object? obj)
     {
