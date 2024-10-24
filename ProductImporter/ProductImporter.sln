@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductImporter.Logic.Trans
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductImporter.CompositionRoot", "ProductImporter.CompositionRoot\ProductImporter.CompositionRoot.csproj", "{9486D86D-47E8-48DC-A5A4-78B36FEA32B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductImporter.Logic.Tests", "ProductImporter.Logic.Tests\ProductImporter.Logic.Tests.csproj", "{F45FBB0A-3310-42B6-AF69-233F34D04A3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{9486D86D-47E8-48DC-A5A4-78B36FEA32B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9486D86D-47E8-48DC-A5A4-78B36FEA32B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9486D86D-47E8-48DC-A5A4-78B36FEA32B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F45FBB0A-3310-42B6-AF69-233F34D04A3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F45FBB0A-3310-42B6-AF69-233F34D04A3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F45FBB0A-3310-42B6-AF69-233F34D04A3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F45FBB0A-3310-42B6-AF69-233F34D04A3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
