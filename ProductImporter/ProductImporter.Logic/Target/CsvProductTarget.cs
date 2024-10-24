@@ -1,28 +1,30 @@
-﻿using ProductImporter.Logic.Shared;
+﻿using Microsoft.Extensions.Options;
+using ProductImporter.Logic.Shared;
+using ProductImporter.Logic.Source;
 using ProductImporter.Model;
 
 namespace ProductImporter.Logic.Target;
 
 public class CsvProductTarget : IProductTarget
 {
-    private readonly Configuration _configuration;
+    private readonly IOptions<CsvProductTargetOptions> _productTargetOptions;
     private readonly IProductFormatter _productFormatter;
     private readonly IImportStatistics _importStatistics;
     private StreamWriter? _streamWriter;
 
     public CsvProductTarget(
-        Configuration configuration,
+        IOptions<CsvProductTargetOptions> productTargetOptions,
         IProductFormatter productFormatter,
         IImportStatistics importStatistics)
     {
-        _configuration = configuration;
+        _productTargetOptions = productTargetOptions;
         _productFormatter = productFormatter;
         _importStatistics = importStatistics;
     }
 
     public void Open()
     {
-        _streamWriter = new StreamWriter(_configuration.TargetCsvPath);
+        _streamWriter = new StreamWriter(_productTargetOptions.Value.TargetCsvPath);
 
         var headerLine = _productFormatter.GetHeaderLine();
         _streamWriter.WriteLine(headerLine);

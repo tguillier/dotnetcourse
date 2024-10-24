@@ -14,13 +14,11 @@ namespace ProductImporter.Logic
     {
         public static IServiceCollection AddProductImporterLogic(this IServiceCollection services, HostBuilderContext context)
         {
-            services.AddSingleton<Configuration>();
-
             services.AddTransient<IPriceParser, PriceParser>();
             services.AddTransient<IProductFormatter, ProductFormatter>();
 
             services.AddTransient<IProductSource, ProductSource>();
-            services.AddTransient<IProductTarget, SqlProductTarget>();
+            services.AddTransient<IProductTarget, CsvProductTarget>();
 
             services.AddTransient<ProductImporter>();
 
@@ -32,6 +30,18 @@ namespace ProductImporter.Logic
             {
                 options.UseSqlServer(context.Configuration.GetConnectionString(nameof(TargetContext)));
             });
+
+            services.AddOptions<CsvProductTargetOptions>()
+                .Configure<IConfiguration>((options, configuration) =>
+                {
+                    configuration.GetSection(CsvProductTargetOptions.SectionName).Bind(options);
+                });
+
+            services.AddOptions<CsvProductSourceOptions>()
+                .Configure<IConfiguration>((options, configuration) =>
+                {
+                    configuration.GetSection(CsvProductSourceOptions.SectionName).Bind(options);
+                });
 
             return services;
         }
