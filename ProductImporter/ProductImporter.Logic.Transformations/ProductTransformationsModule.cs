@@ -19,15 +19,10 @@ namespace ProductImporter.Logic.Transformations
 
             builder.Register(_ => new SystemOutLogger());
 
-            builder.RegisterType<ProductTransformationContext>()
-                .As<IProductTransformationContext>()
+            builder.RegisterAssemblyTypes(typeof(ProductTransformationsModule).Assembly)
+                .Where(type => type.IsAssignableTo<IProductTransformation>())
                 .InstancePerLifetimeScope()
-                .EnableInterfaceInterceptors()
-                .InterceptedBy(typeof(SystemOutLogger));
-
-            builder.RegisterType<NameDecapitaliser>()
-                .As<IProductTransformation>()
-                .InstancePerLifetimeScope()
+                .AsImplementedInterfaces()
                 .EnableInterfaceInterceptors()
                 .InterceptedBy(typeof(SystemOutLogger));
 
@@ -36,24 +31,9 @@ namespace ProductImporter.Logic.Transformations
                 .InstancePerLifetimeScope()
                 .EnableInterfaceInterceptors()
                 .InterceptedBy(typeof(SystemOutLogger));
-
-            if (_options.EnableCurrencyNormalizer)
-            {
-                builder.RegisterType<NameDecapitaliser>()
-                    .As<IProductTransformation>()
-                    .InstancePerLifetimeScope()
-                .EnableInterfaceInterceptors()
-                .InterceptedBy(typeof(SystemOutLogger));
-            }
 
             builder.RegisterType<DateTimeProvider>()
                 .As<IDateTimeProvider>()
-                .InstancePerLifetimeScope()
-                .EnableInterfaceInterceptors()
-                .InterceptedBy(typeof(SystemOutLogger));
-
-            builder.RegisterType<ReferenceAdder>()
-                .As<IProductTransformation>()
                 .InstancePerLifetimeScope()
                 .EnableInterfaceInterceptors()
                 .InterceptedBy(typeof(SystemOutLogger));
