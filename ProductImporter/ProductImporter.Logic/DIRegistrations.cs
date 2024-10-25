@@ -27,7 +27,9 @@ namespace ProductImporter.Logic
 
             services.AddTransient<ProductImporter>();
 
-            services.AddSingleton<IImportStatistics, ImportStatistics>();
+            services.AddSingleton<ImportStatistics>();
+            services.AddSingleton<IWriteImportStatistics>(serviceProvider => serviceProvider.GetRequiredService<ImportStatistics>());
+            services.AddSingleton<IGetImportStatistics>(serviceProvider => serviceProvider.GetRequiredService<ImportStatistics>());
 
             services.AddTransient<IProductTransformer, ProductTransformer>();
 

@@ -1,8 +1,7 @@
 ﻿namespace ProductImporter.Logic.Shared;
 
-public interface IImportStatistics
+public interface IWriteImportStatistics
 {
-    string GetStatistics();
     void IncrementImportCount();
     void IncrementOutputCount();
     void IncrementTransformationCount();

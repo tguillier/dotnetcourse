@@ -9,13 +9,13 @@ public class ProductImporter
 {
     private readonly IProductSource _productSource;
     private readonly IProductTarget _productTarget;
-    private readonly IImportStatistics _importStatistics;
+    private readonly IGetImportStatistics _importStatistics;
     private readonly IProductTransformer _productTransformer;
 
     public ProductImporter(
         IProductSource productSource,
         IProductTarget productTarget,
-        IImportStatistics importStatistics,
+        IGetImportStatistics importStatistics,
         IProductTransformer productTransformer)
     {
         _productSource = productSource;

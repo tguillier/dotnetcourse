@@ -9,14 +9,14 @@ public class HttpProductSource : IProductSource
 {
     private readonly IOptions<HttpProductSourceOptions> _productSourceOptions;
     private readonly HttpClient _httpClient;
-    private readonly IImportStatistics _importStatistics;
+    private readonly IWriteImportStatistics _importStatistics;
 
     private readonly Queue<Product> _remainingProducts;
 
     public HttpProductSource(
         IOptions<HttpProductSourceOptions> productSourceOptions,
         HttpClient httpClient,
-        IImportStatistics importStatistics)
+        IWriteImportStatistics importStatistics)
     {
         _productSourceOptions = productSourceOptions;
         _httpClient = httpClient;

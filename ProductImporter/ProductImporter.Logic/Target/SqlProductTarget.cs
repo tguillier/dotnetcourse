@@ -8,11 +8,11 @@ namespace ProductImporter.Logic.Target;
 public class SqlProductTarget : IProductTarget
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly IImportStatistics _importStatistics;
+    private readonly IWriteImportStatistics _importStatistics;
 
     public SqlProductTarget(
         IServiceScopeFactory serviceScopeFactory,
-        IImportStatistics importStatistics)
+        IWriteImportStatistics importStatistics)
     {
         _serviceScopeFactory = serviceScopeFactory;
         _importStatistics = importStatistics;

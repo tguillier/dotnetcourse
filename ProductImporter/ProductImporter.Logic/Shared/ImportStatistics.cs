@@ -2,7 +2,7 @@
 
 namespace ProductImporter.Logic.Shared;
 
-public class ImportStatistics : IImportStatistics
+public class ImportStatistics : IGetImportStatistics, IWriteImportStatistics
 {
     private int _productsImportedCount;
     private int _productsOutputtedCount;
