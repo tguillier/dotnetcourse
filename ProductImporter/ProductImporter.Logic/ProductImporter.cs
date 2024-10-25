@@ -10,13 +10,13 @@ public class ProductImporter
     private readonly IProductSource _productSource;
     private readonly IProductTarget _productTarget;
     private readonly IGetImportStatistics _importStatistics;
-    private readonly IProductTransformer _productTransformer;
+    private readonly Lazy<IProductTransformer> _productTransformer;
 
     public ProductImporter(
         IProductSource productSource,
         IProductTarget productTarget,
         IGetImportStatistics importStatistics,
-        IProductTransformer productTransformer)
+        Lazy<IProductTransformer> productTransformer)
     {
         _productSource = productSource;
         _productTarget = productTarget;
@@ -33,7 +33,7 @@ public class ProductImporter
         {
             var product = _productSource.GetNextProduct();
 
-            var transformedProduct = _productTransformer.ApplyTransformations(product);
+            var transformedProduct = _productTransformer.Value.ApplyTransformations(product);
 
             _productTarget.AddProduct(transformedProduct);
         }

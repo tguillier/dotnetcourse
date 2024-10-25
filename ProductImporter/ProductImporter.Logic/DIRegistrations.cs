@@ -31,7 +31,16 @@ namespace ProductImporter.Logic
             services.AddSingleton<IWriteImportStatistics>(serviceProvider => serviceProvider.GetRequiredService<ImportStatistics>());
             services.AddSingleton<IGetImportStatistics>(serviceProvider => serviceProvider.GetRequiredService<ImportStatistics>());
 
-            services.AddTransient<IProductTransformer, ProductTransformer>();
+            services.AddTransient<Lazy<IProductTransformer>>(serviceProvider =>
+            {
+                return new Lazy<IProductTransformer>(() =>
+                {
+                    var serviceScopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
+                    var importStatistics = serviceProvider.GetRequiredService<IWriteImportStatistics>();
+
+                    return new ProductTransformer(serviceScopeFactory, importStatistics);
+                });
+            });
 
             services.AddDbContext<TargetContext>(options =>
             {
