@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Extras.DynamicProxy;
 using ProductImporter.Logic.Transformations.Util;
 
 namespace ProductImporter.Logic.Transformations
@@ -16,40 +17,58 @@ namespace ProductImporter.Logic.Transformations
         {
             base.Load(builder);
 
+            builder.Register(_ => new SystemOutLogger());
+
             builder.RegisterType<ProductTransformationContext>()
                 .As<IProductTransformationContext>()
-                .InstancePerLifetimeScope();
+                .InstancePerLifetimeScope()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(SystemOutLogger));
 
             builder.RegisterType<NameDecapitaliser>()
                 .As<IProductTransformation>()
-                .InstancePerLifetimeScope();
+                .InstancePerLifetimeScope()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(SystemOutLogger));
 
             builder.RegisterType<ProductTransformationContext>()
                 .As<IProductTransformationContext>()
-                .InstancePerLifetimeScope();
+                .InstancePerLifetimeScope()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(SystemOutLogger));
 
             if (_options.EnableCurrencyNormalizer)
             {
                 builder.RegisterType<NameDecapitaliser>()
                     .As<IProductTransformation>()
-                    .InstancePerLifetimeScope();
+                    .InstancePerLifetimeScope()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(SystemOutLogger));
             }
 
             builder.RegisterType<DateTimeProvider>()
                 .As<IDateTimeProvider>()
-                .InstancePerLifetimeScope();
+                .InstancePerLifetimeScope()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(SystemOutLogger));
 
             builder.RegisterType<ReferenceAdder>()
                 .As<IProductTransformation>()
-                .InstancePerLifetimeScope();
+                .InstancePerLifetimeScope()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(SystemOutLogger));
 
             builder.RegisterType<ReferenceGeneratorFactory>()
                 .As<IReferenceGeneratorFactory>()
-                .InstancePerLifetimeScope();
+                .InstancePerLifetimeScope()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(SystemOutLogger));
 
             builder.RegisterType<InternalCounter>()
                 .As<IInternalCounter>()
-                .SingleInstance();
+                .SingleInstance()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(SystemOutLogger));
         }
     }
 }
