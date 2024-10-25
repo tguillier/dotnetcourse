@@ -1,57 +1,51 @@
-﻿using CsvHelper;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using ProductImporter.Logic.Shared;
 using ProductImporter.Model;
-using System.Globalization;
 
 namespace ProductImporter.Logic.Target;
 
-public class CsvProductTarget : IProductTarget, IDisposable
+public class OldCsvProductTarget : IProductTarget
 {
     private readonly IOptions<CsvProductTargetOptions> _productTargetOptions;
+    private readonly IProductFormatter _productFormatter;
     private readonly IWriteImportStatistics _importStatistics;
+    private StreamWriter? _streamWriter;
 
-    private CsvWriter? _csvWriter;
-
-    public CsvProductTarget(
+    public OldCsvProductTarget(
         IOptions<CsvProductTargetOptions> productTargetOptions,
+        IProductFormatter productFormatter,
         IWriteImportStatistics importStatistics)
     {
         _productTargetOptions = productTargetOptions;
+        _productFormatter = productFormatter;
         _importStatistics = importStatistics;
     }
 
     public void Open()
     {
-        var streamWriter = new StreamWriter(_productTargetOptions.Value.TargetCsvPath);
-        _csvWriter = new CsvWriter(streamWriter, CultureInfo.CurrentCulture, leaveOpen: false);
+        _streamWriter = new StreamWriter(_productTargetOptions.Value.TargetCsvPath);
 
-        _csvWriter.WriteHeader<Product>();
-        _csvWriter.NextRecord();
+        var headerLine = _productFormatter.GetHeaderLine();
+        _streamWriter.WriteLine(headerLine);
     }
 
     public void AddProduct(Product product)
     {
-        if (_csvWriter == null)
+        if (_streamWriter == null)
             throw new InvalidOperationException("Cannot add products to a target that is not yet open");
 
-        _csvWriter.WriteRecord(product);
-        _csvWriter.NextRecord();
+        var productLine = _productFormatter.Format(product);
 
         _importStatistics.IncrementOutputCount();
+        _streamWriter.WriteLine(productLine);
     }
 
     public void Close()
     {
-        if (_csvWriter == null)
+        if (_streamWriter == null)
             throw new InvalidOperationException("Cannot close a target that is not yet open");
 
-        _csvWriter.Flush();
-    }
-
-    public void Dispose()
-    {
-        _csvWriter?.Dispose();
-        GC.SuppressFinalize(this);
+        _streamWriter.Flush();
+        _streamWriter.Close();
     }
 }

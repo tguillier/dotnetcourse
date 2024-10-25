@@ -22,7 +22,18 @@ namespace ProductImporter.Logic
                     client.BaseAddress = new Uri(baseAdress);
                 });
 
-            services.AddTransient<IProductTarget, SqlProductTarget>();
+            services.AddTransient<CsvProductTarget>();
+            services.AddTransient<OldCsvProductTarget>();
+            services.AddTransient<IProductTarget>(serviceProvider =>
+            {
+                var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+                if (configuration.GetValue<bool>("EnableCsvWriter"))
+                {
+                    return serviceProvider.GetRequiredService<CsvProductTarget>();
+                }
+
+                return serviceProvider.GetRequiredService<OldCsvProductTarget>();
+            });
             services.AddTransient<IProductFormatter, ProductFormatter>();
 
             services.AddTransient<ProductImporter>();
