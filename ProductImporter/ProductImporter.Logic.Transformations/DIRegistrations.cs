@@ -22,7 +22,7 @@ namespace ProductImporter.Logic.Transformations
 
             services.AddScoped<IDateTimeProvider, DateTimeProvider>();
             services.AddScoped<IProductTransformation, ReferenceAdder>();
-            services.AddScoped<IReferenceGenerator, ReferenceGenerator>();
+            services.AddScoped<IReferenceGeneratorFactory, ReferenceGeneratorFactory>();
 
             services.AddSingleton<IInternalCounter, InternalCounter>();
 

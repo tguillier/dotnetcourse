@@ -5,15 +5,16 @@ namespace ProductImporter.Logic.Transformations
 {
     public class ReferenceAdder : IProductTransformation
     {
+        public const string _referencePrefix = "JRI";
         private readonly IProductTransformationContext _productTransformationContext;
         private readonly IReferenceGenerator _refenceGenerator;
 
         public ReferenceAdder(
             IProductTransformationContext productTransformationContext,
-            IReferenceGenerator refenceGenerator)
+            IReferenceGeneratorFactory refenceGeneratorFactory)
         {
             _productTransformationContext = productTransformationContext;
-            _refenceGenerator = refenceGenerator;
+            _refenceGenerator = refenceGeneratorFactory.Create(_referencePrefix);
         }
 
         public void Execute()
