@@ -42,7 +42,7 @@ namespace ProductImporter.Logic
             services.AddSingleton<IWriteImportStatistics>(serviceProvider => serviceProvider.GetRequiredService<ImportStatistics>());
             services.AddSingleton<IGetImportStatistics>(serviceProvider => serviceProvider.GetRequiredService<ImportStatistics>());
 
-            services.AddTransient<Lazy<IProductTransformer>>(serviceProvider =>
+            services.AddTransient(serviceProvider =>
             {
                 return new Lazy<IProductTransformer>(() =>
                 {
